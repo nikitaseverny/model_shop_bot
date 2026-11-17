@@ -1,0 +1,20 @@
+# Admin Bot Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application
+COPY . .
+
+# Data volume for persistence (shared with main bot)
+VOLUME ["/data"]
+
+# Expose webhook port
+EXPOSE 8080
+
+# Run admin bot
+CMD ["python", "admin_bot.py"]

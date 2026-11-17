@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  shop-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: model-shop-bot
+    env_file: .env
+    volumes:
+      - shop-data:/data
+    restart: unless-stopped
+    depends_on:
+      - admin-bot
+
+  admin-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    container_name: model-shop-admin-bot
+    env_file: .env
+    volumes:
+      - shop-data:/data
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  shop-data:
